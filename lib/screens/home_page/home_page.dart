@@ -17,26 +17,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final searchController = TextEditingController();
 
   int selectedColorIndex = -1;
 
-  Color get primaryColor =>  Color(0xff08122E);
+  Color get primaryColor => Color(0xff08122E);
 
-  Color get accentColor =>  Color(0xff5B4DFF);
+  Color get accentColor => Color(0xff5B4DFF);
 
-  Color get softTextColor =>  Color(0xff6B7280);
+  Color get softTextColor => Color(0xff6B7280);
 
-  Color get bgColor =>  Color(0xffF5F7FF);
+  Color get bgColor => Color(0xffF5F7FF);
 
   @override
   void initState() {
     super.initState();
 
-    context.read<TrendingBloc>().add(
-      GetTrendingWallpapersEvent(),
-    );
+    context.read<TrendingBloc>().add(GetTrendingWallpapersEvent());
   }
 
   @override
@@ -47,108 +44,85 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       backgroundColor: bgColor,
 
       body: SafeArea(
-
         child: ListView(
-
-          physics:  BouncingScrollPhysics(),
+          physics: BouncingScrollPhysics(),
 
           children: [
-
-             SizedBox(height: 22),
+            SizedBox(height: 22),
             Padding(
-              padding:  EdgeInsets.symmetric(
-                horizontal: 18,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 18),
 
               child: Container(
-
-                padding:  EdgeInsets.all(22),
+                padding: EdgeInsets.all(22),
 
                 decoration: BoxDecoration(
-
                   color: Colors.white,
 
                   borderRadius: BorderRadius.circular(30),
 
                   boxShadow: [
-
                     BoxShadow(
                       color: Colors.black.withOpacity(0.06),
 
                       blurRadius: 28,
 
-                      offset:  Offset(0, 14),
+                      offset: Offset(0, 14),
                     ),
                   ],
                 ),
 
                 child: Column(
-
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
 
                   children: [
-
                     Text(
                       "WallNest",
 
                       style: mTextStyle16(
                         mColor: primaryColor,
                         mFontWeight: FontWeight.bold,
-                      ).copyWith(
-                        fontSize: 34,
-                      ),
+                      ).copyWith(fontSize: 34),
                     ),
 
-                     SizedBox(height: 6),
+                    SizedBox(height: 6),
 
                     Text(
                       "Curated wallpapers for your screen",
 
-                      style: mTextStyle14(
-                        mColor: softTextColor,
-                      ),
+                      style: mTextStyle14(mColor: softTextColor),
                     ),
                   ],
                 ),
               ),
             ),
 
-             SizedBox(height: 24),
-            
+            SizedBox(height: 24),
+
             Padding(
-              padding:  EdgeInsets.symmetric(
-                horizontal: 18,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 18),
 
               child: Container(
-
                 decoration: BoxDecoration(
-
                   color: Colors.white,
 
                   borderRadius: BorderRadius.circular(28),
 
                   boxShadow: [
-
                     BoxShadow(
                       color: Colors.black.withOpacity(0.055),
 
                       blurRadius: 24,
 
-                      offset:  Offset(0, 14),
+                      offset: Offset(0, 14),
                     ),
                   ],
                 ),
 
                 child: TextField(
-
                   controller: searchController,
 
                   cursorColor: accentColor,
@@ -159,7 +133,6 @@ class _HomePageState extends State<HomePage> {
                   ),
 
                   decoration: InputDecoration(
-
                     border: InputBorder.none,
 
                     hintText: "Search wallpapers...",
@@ -170,40 +143,24 @@ class _HomePageState extends State<HomePage> {
                     ),
 
                     suffixIcon: InkWell(
-
-                      borderRadius:
-                      BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20),
 
                       onTap: () async {
-
-                        if (searchController
-                            .text
-                            .isNotEmpty) {
-
-                          context
-                              .read<SearchBloc>()
-                              .add(
-                            ClearSearchEvent(),
-                          );
+                        if (searchController.text.isNotEmpty) {
+                          context.read<SearchBloc>().add(ClearSearchEvent());
 
                           await Navigator.pushNamed(
-
                             context,
 
                             AppRoutes.searchWallpaperPage,
 
                             arguments: {
+                              "query": searchController.text,
 
-                              "query":
-                              searchController.text,
-
-                              "color":
-                              selectedColorIndex == -1
+                              "color": selectedColorIndex == -1
                                   ? ""
                                   : AppConstants
-                                  .mColors[
-                              selectedColorIndex]
-                              ["code"],
+                                        .mColors[selectedColorIndex]["code"],
                             },
                           );
 
@@ -215,15 +172,10 @@ class _HomePageState extends State<HomePage> {
                         }
                       },
 
-                      child: Icon(
-                        Icons.search,
-                        color: softTextColor,
-                        size: 30,
-                      ),
+                      child: Icon(Icons.search, color: softTextColor, size: 30),
                     ),
 
-                    contentPadding:
-                     EdgeInsets.symmetric(
+                    contentPadding: EdgeInsets.symmetric(
                       horizontal: 18,
                       vertical: 22,
                     ),
@@ -232,15 +184,12 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
-             SizedBox(height: 30),
+            SizedBox(height: 30),
             Padding(
-              padding:  EdgeInsets.symmetric(
-                horizontal: 18,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 18),
 
               child: Row(
                 children: [
-
                   Container(
                     width: 5,
                     height: 25,
@@ -248,12 +197,11 @@ class _HomePageState extends State<HomePage> {
                     decoration: BoxDecoration(
                       color: accentColor,
 
-                      borderRadius:
-                      BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
 
-                   SizedBox(width: 10),
+                  SizedBox(width: 10),
 
                   Text(
                     "Best of Month",
@@ -261,147 +209,112 @@ class _HomePageState extends State<HomePage> {
                     style: mTextStyle16(
                       mColor: primaryColor,
                       mFontWeight: FontWeight.bold,
-                    ).copyWith(
-                      fontSize: 20,
-                    ),
+                    ).copyWith(fontSize: 20),
                   ),
                 ],
               ),
             ),
 
-             SizedBox(height: 16),
+            SizedBox(height: 16),
             SizedBox(
-
               height: 250,
 
-              child: BlocBuilder<
-                  TrendingBloc,
-                  TrendingState>(
-
+              child: BlocBuilder<TrendingBloc, TrendingState>(
                 builder: (_, state) {
-
-                  if (state
-                  is TrendingLoadingState) {
-
+                  if (state is TrendingLoadingState) {
                     return Center(
-                      child:
-                      CircularProgressIndicator(
-                        color: accentColor,
+                      child: Container(
+                        width: 82,
+                        height: 82,
+                        padding: const EdgeInsets.all(18),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(26),
+                          boxShadow: [
+                            BoxShadow(
+                              color: accentColor.withOpacity(0.18),
+                              blurRadius: 24,
+                              offset: const Offset(0, 12),
+                            ),
+                          ],
+                        ),
+                        child: CircularProgressIndicator(
+                          strokeWidth: 4,
+                          color: accentColor,
+                          backgroundColor: const Color(0xffEEF0F6),
+                          strokeCap: StrokeCap.round,
+                        ),
                       ),
                     );
-                  }
-
-                  else if (state
-                  is TrendingErrorState) {
-
-                    return Center(
-                      child: Text(
-                        state.errMsg,
-                      ),
-                    );
-                  }
-
-                  else if (state
-                  is TrendingLoadedState) {
-
+                  }else if (state is TrendingErrorState) {
+                    return Center(child: Text(state.errMsg));
+                  } else if (state is TrendingLoadedState) {
                     return ListView.builder(
+                      scrollDirection: Axis.horizontal,
 
-                      scrollDirection:
-                      Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
 
-                      physics:
-                       BouncingScrollPhysics(),
+                      padding: EdgeInsets.symmetric(horizontal: 18),
 
-                      padding:
-                       EdgeInsets.symmetric(
-                        horizontal: 18,
-                      ),
-
-                      itemCount:
-                      state.listPhotos.length,
+                      itemCount: state.listPhotos.length,
 
                       itemBuilder: (_, index) {
-
-                        var photo =
-                        state.listPhotos[index];
+                        var photo = state.listPhotos[index];
 
                         return InkWell(
-
-                          borderRadius:
-                          BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(24),
 
                           onTap: () {
-
                             Navigator.pushNamed(
-
                               context,
 
-                              AppRoutes
-                                  .detailWallpaperPage,
+                              AppRoutes.detailWallpaperPage,
 
                               arguments: photo,
                             );
                           },
 
                           child: Container(
-
                             width: 156,
 
-                            margin:
-                             EdgeInsets.only(
-                              right: 14,
-                            ),
+                            margin: EdgeInsets.only(right: 14),
 
                             decoration: BoxDecoration(
-
-                              borderRadius:
-                              BorderRadius.circular(24),
+                              borderRadius: BorderRadius.circular(24),
 
                               boxShadow: [
-
                                 BoxShadow(
-                                  color: Colors.black
-                                      .withOpacity(0.13),
+                                  color: Colors.black.withOpacity(0.13),
 
                                   blurRadius: 18,
 
-                                  offset:
-                                   Offset(0, 10),
+                                  offset: Offset(0, 10),
                                 ),
                               ],
                             ),
 
                             child: ClipRRect(
-
-                              borderRadius:
-                              BorderRadius.circular(24),
+                              borderRadius: BorderRadius.circular(24),
 
                               child: Stack(
-
                                 fit: StackFit.expand,
 
                                 children: [
-
                                   WallPaperBgWidget(
-                                    imgUrl:
-                                    photo.src!.portrait!,
+                                    imgUrl: photo.src!.portrait!,
                                   ),
 
                                   Container(
                                     decoration: BoxDecoration(
-                                      gradient:
-                                      LinearGradient(
+                                      gradient: LinearGradient(
                                         colors: [
                                           Colors.transparent,
-                                          Colors.black
-                                              .withOpacity(0.62),
+                                          Colors.black.withOpacity(0.62),
                                         ],
 
-                                        begin:
-                                        Alignment.topCenter,
+                                        begin: Alignment.topCenter,
 
-                                        end:
-                                        Alignment.bottomCenter,
+                                        end: Alignment.bottomCenter,
                                       ),
                                     ),
                                   ),
@@ -419,15 +332,12 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
-             SizedBox(height: 32),
+            SizedBox(height: 32),
             Padding(
-              padding:  EdgeInsets.symmetric(
-                horizontal: 18,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 18),
 
               child: Row(
                 children: [
-
                   Container(
                     width: 5,
                     height: 25,
@@ -435,12 +345,11 @@ class _HomePageState extends State<HomePage> {
                     decoration: BoxDecoration(
                       color: accentColor,
 
-                      borderRadius:
-                      BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
 
-                   SizedBox(width: 10),
+                  SizedBox(width: 10),
 
                   Text(
                     "Color Tone",
@@ -448,66 +357,44 @@ class _HomePageState extends State<HomePage> {
                     style: mTextStyle16(
                       mColor: primaryColor,
                       mFontWeight: FontWeight.bold,
-                    ).copyWith(
-                      fontSize: 20,
-                    ),
+                    ).copyWith(fontSize: 20),
                   ),
                 ],
               ),
             ),
 
-             SizedBox(height: 16),
+            SizedBox(height: 16),
             SizedBox(
-
               height: 78,
 
               child: ListView.builder(
-
                 scrollDirection: Axis.horizontal,
 
-                physics:
-                 BouncingScrollPhysics(),
+                physics: BouncingScrollPhysics(),
 
-                padding:
-                 EdgeInsets.symmetric(
-                  horizontal: 18,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 18),
 
-                itemCount:
-                AppConstants.mColors.length,
+                itemCount: AppConstants.mColors.length,
 
                 itemBuilder: (_, index) {
-
-                  bool isSelected =
-                      selectedColorIndex == index;
+                  bool isSelected = selectedColorIndex == index;
 
                   return InkWell(
-
-                    borderRadius:
-                    BorderRadius.circular(24),
+                    borderRadius: BorderRadius.circular(24),
 
                     onTap: () {
-
                       setState(() {
-
-                        selectedColorIndex =
-                        selectedColorIndex == index
+                        selectedColorIndex = selectedColorIndex == index
                             ? -1
                             : index;
                       });
                     },
 
                     child: Container(
-                      margin:
-                       EdgeInsets.only(
-                        right: 14,
-                      ),
+                      margin: EdgeInsets.only(right: 14),
 
                       child: getColorToneWidget(
-
-                        mColor:
-                        AppConstants.mColors[index]
-                        ["color"],
+                        mColor: AppConstants.mColors[index]["color"],
 
                         isSelected: isSelected,
                       ),
@@ -517,15 +404,12 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
-             SizedBox(height: 32),
+            SizedBox(height: 32),
             Padding(
-              padding:  EdgeInsets.symmetric(
-                horizontal: 18,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 18),
 
               child: Row(
                 children: [
-
                   Container(
                     width: 5,
                     height: 25,
@@ -533,12 +417,11 @@ class _HomePageState extends State<HomePage> {
                     decoration: BoxDecoration(
                       color: accentColor,
 
-                      borderRadius:
-                      BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
 
-                   SizedBox(width: 10),
+                  SizedBox(width: 10),
 
                   Text(
                     "Categories",
@@ -546,33 +429,24 @@ class _HomePageState extends State<HomePage> {
                     style: mTextStyle16(
                       mColor: primaryColor,
                       mFontWeight: FontWeight.bold,
-                    ).copyWith(
-                      fontSize: 20,
-                    ),
+                    ).copyWith(fontSize: 20),
                   ),
                 ],
               ),
             ),
 
-             SizedBox(height: 16),
+            SizedBox(height: 16),
             Padding(
-              padding:  EdgeInsets.symmetric(
-                horizontal: 18,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 18),
 
               child: GridView.builder(
-
                 shrinkWrap: true,
 
-                physics:
-                 NeverScrollableScrollPhysics(),
+                physics: NeverScrollableScrollPhysics(),
 
-                itemCount:
-                AppConstants.mCategories.length,
+                itemCount: AppConstants.mCategories.length,
 
-                gridDelegate:
-                 SliverGridDelegateWithFixedCrossAxisCount(
-
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
 
                   mainAxisSpacing: 18,
@@ -583,43 +457,26 @@ class _HomePageState extends State<HomePage> {
                 ),
 
                 itemBuilder: (_, index) {
-
                   return InkWell(
-
-                    borderRadius:
-                    BorderRadius.circular(24),
+                    borderRadius: BorderRadius.circular(24),
 
                     onTap: () {
-
-                      context
-                          .read<SearchBloc>()
-                          .add(
-                        ClearSearchEvent(),
-                      );
+                      context.read<SearchBloc>().add(ClearSearchEvent());
 
                       Navigator.pushNamed(
-
                         context,
 
                         AppRoutes.searchWallpaperPage,
 
                         arguments: {
+                          "query": AppConstants.mCategories[index].title,
 
-                          "query":
-                          AppConstants
-                              .mCategories[index]
-                              .title,
-
-                          "color":
-                          selectedColorIndex == -1
+                          "color": selectedColorIndex == -1
                               ? ""
                               : AppConstants
-                              .mColors[
-                          selectedColorIndex]
-                          ["code"],
+                                    .mColors[selectedColorIndex]["code"],
                         },
-                      ).then((value){
-
+                      ).then((value) {
                         setState(() {
                           selectedColorIndex = -1;
                         });
@@ -627,85 +484,63 @@ class _HomePageState extends State<HomePage> {
                     },
 
                     child: getCategoryWidget(
+                      imgUrl: AppConstants.mCategories[index].url!,
 
-                      imgUrl:
-                      AppConstants
-                          .mCategories[index]
-                          .url!,
-
-                      title:
-                      AppConstants
-                          .mCategories[index]
-                          .title,
+                      title: AppConstants.mCategories[index].title,
                     ),
                   );
                 },
               ),
             ),
 
-             SizedBox(height: 34),
+            SizedBox(height: 34),
           ],
         ),
       ),
     );
   }
 
-  Widget getColorToneWidget({
-    required Color mColor,
-    required bool isSelected,
-  }) {
-
+  Widget getColorToneWidget({required Color mColor, required bool isSelected}) {
     return AnimatedContainer(
-
-      duration:
-       Duration(milliseconds: 240),
+      duration: Duration(milliseconds: 240),
 
       width: isSelected ? 68 : 58,
 
       height: isSelected ? 68 : 58,
 
-      padding:  EdgeInsets.all(5),
+      padding: EdgeInsets.all(5),
 
       decoration: BoxDecoration(
-
         color: Colors.white,
 
         borderRadius: BorderRadius.circular(24),
 
         border: Border.all(
-
-          color: isSelected
-              ?  Color(0xff7C74FF)
-              :  Color(0xffEEF0F6),
+          color: isSelected ? Color(0xff7C74FF) : Color(0xffEEF0F6),
 
           width: isSelected ? 2.2 : 1,
         ),
 
         boxShadow: [
-
           BoxShadow(
-
             color: isSelected
-                ?  Color(0xff7C74FF)
-                .withOpacity(0.28)
+                ? Color(0xff7C74FF).withOpacity(0.28)
                 : Colors.black.withOpacity(0.045),
 
             blurRadius: isSelected ? 22 : 10,
 
-            offset:  Offset(0, 8),
+            offset: Offset(0, 8),
           ),
         ],
       ),
 
       child: Stack(
         children: [
-
           Container(
             decoration: BoxDecoration(
               color: mColor,
 
-              borderRadius:
-              BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(18),
             ),
           ),
 
@@ -714,61 +549,43 @@ class _HomePageState extends State<HomePage> {
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.08),
 
-                borderRadius:
-                BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(18),
               ),
             ),
 
           if (isSelected)
-             Center(
-              child: Icon(
-                Icons.check_rounded,
-                color: Colors.white,
-                size: 28,
-              ),
+            Center(
+              child: Icon(Icons.check_rounded, color: Colors.white, size: 28),
             ),
         ],
       ),
     );
   }
 
-  Widget getCategoryWidget({
-    String? imgUrl,
-    String? title,
-  }) {
-
+  Widget getCategoryWidget({String? imgUrl, String? title}) {
     return Container(
-
       decoration: BoxDecoration(
-
         borderRadius: BorderRadius.circular(24),
 
         boxShadow: [
-
           BoxShadow(
             color: Colors.black.withOpacity(0.10),
 
             blurRadius: 18,
 
-            offset:  Offset(0, 10),
+            offset: Offset(0, 10),
           ),
         ],
       ),
 
       child: ClipRRect(
-
         borderRadius: BorderRadius.circular(24),
 
         child: Stack(
-
           fit: StackFit.expand,
 
           children: [
-
-            Image.asset(
-              imgUrl!,
-              fit: BoxFit.cover,
-            ),
+            Image.asset(imgUrl!, fit: BoxFit.cover),
 
             Container(
               decoration: BoxDecoration(
@@ -790,23 +607,17 @@ class _HomePageState extends State<HomePage> {
               right: 12,
 
               child: Container(
-
-                padding:  EdgeInsets.all(7),
+                padding: EdgeInsets.all(7),
 
                 decoration: BoxDecoration(
-
                   color: Colors.black.withOpacity(0.28),
 
-                  borderRadius:
-                  BorderRadius.circular(13),
+                  borderRadius: BorderRadius.circular(13),
 
-                  border: Border.all(
-                    color:
-                    Colors.white.withOpacity(0.20),
-                  ),
+                  border: Border.all(color: Colors.white.withOpacity(0.20)),
                 ),
 
-                child:  Icon(
+                child: Icon(
                   Icons.grid_view_rounded,
                   color: Colors.white,
                   size: 17,
@@ -829,9 +640,7 @@ class _HomePageState extends State<HomePage> {
                 style: mTextStyle14(
                   mColor: Colors.white,
                   mFontWeight: FontWeight.bold,
-                ).copyWith(
-                  fontSize: 17,
-                ),
+                ).copyWith(fontSize: 17),
               ),
             ),
           ],
