@@ -46,7 +46,7 @@ class _NetworkErrorPageState extends State<NetworkErrorPage> {
             borderRadius: BorderRadius.circular(18),
           ),
           content: const Text(
-            "Still no internet connection",
+            "Please check your internet connection and try again.",
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w600,
