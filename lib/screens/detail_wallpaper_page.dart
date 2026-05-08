@@ -3,13 +3,24 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:wallpaper/wallpaper.dart';
 import 'package:wallpaper_app/data/models/wallpaper_model.dart';
 import 'package:wallpaper_app/ui_helper/ui_helper.dart';
 
-class DetailWallpaperPage extends StatelessWidget {
+import '../constants/app_routes.dart';
+
+class DetailWallpaperPage extends StatefulWidget {
+  @override
+  State<DetailWallpaperPage> createState() => _DetailWallpaperPageState();
+}
+
+class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
   @override
   Widget build(BuildContext context) {
+    Future<bool> hasInternet() async {
+      return await InternetConnectionCheckerPlus().hasConnection;
+    }
     final PhotoModel data =
     ModalRoute.of(context)!.settings.arguments as PhotoModel;
 
@@ -19,12 +30,36 @@ class DetailWallpaperPage extends StatelessWidget {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            child: Image.network(
-              imageUrl,
-              fit: BoxFit.cover,
+          SizedBox.expand(
+            child: FutureBuilder<bool>(
+              future: hasInternet(),
+              builder: (context, snapshot) {
+
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  );
+                }
+
+                if (snapshot.data == false) {
+
+                  Future.microtask(() {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      AppRoutes.networkErrorPage,
+                    );
+                  });
+
+                  return const SizedBox();
+                }
+
+                return Image.network(
+                  imageUrl,
+                  fit: BoxFit.cover,
+                );
+              },
             ),
           ),
 
