@@ -9,42 +9,79 @@ import 'package:wallpaper_app/screens/search/search_bloc/search_state.dart';
 import 'package:wallpaper_app/ui_helper/ui_helper.dart';
 
 import '../../constants/app_routes.dart';
-
 class SearchWallpaperPage extends StatefulWidget {
   @override
-  State<SearchWallpaperPage> createState() => _SearchWallpaperPageState();
+  State<SearchWallpaperPage> createState() =>
+      _SearchWallpaperPageState();
 }
 
-class _SearchWallpaperPageState extends State<SearchWallpaperPage> {
+class _SearchWallpaperPageState
+    extends State<SearchWallpaperPage> {
+
   Map<String, dynamic>? query;
-  ScrollController? scrollController=ScrollController();
-  num totalWallpaperCnt=0;
-  int totalNumPages=1;
-  int pageCnt=1;
-  List<PhotoModel>allWallpapers=[];
+
+  ScrollController scrollController = ScrollController();
+
+  num totalWallpaperCnt = 0;
+
+  int totalNumPages = 1;
+
+  int pageCnt = 1;
+
+  List<PhotoModel> allWallpapers = [];
+
+  bool isPaginationLoading = false;
+
+  Color get bgColor =>  Color(0xffF5F7FF);
+
+  Color get primaryColor =>  Color(0xff08122E);
+
+  Color get accentColor =>  Color(0xff5B4DFF);
 
   @override
   void initState() {
     super.initState();
+
     Future.delayed(Duration.zero, () {
+
       query =
-          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      ModalRoute.of(context)!.settings.arguments
+      as Map<String, dynamic>;
+
       final searchQuery = query!["query"] as String;
+
       final searchColor = query!["color"] as String? ?? "";
 
       context.read<SearchBloc>().add(
-        GetSearchWallpapersEvent(query: searchQuery,color: searchColor),
+        GetSearchWallpapersEvent(
+          query: searchQuery,
+          color: searchColor,
+        ),
       );
 
       setState(() {});
     });
-    scrollController!.addListener((){
-      if(scrollController!.position.pixels==scrollController!.position.maxScrollExtent){
-        totalNumPages=totalWallpaperCnt~/15+1;
-        if(pageCnt<totalNumPages){
+
+    scrollController.addListener(() {
+
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 300) {
+
+        totalNumPages = totalWallpaperCnt ~/ 15 + 1;
+
+        if (pageCnt < totalNumPages &&
+            !isPaginationLoading) {
+
+          isPaginationLoading = true;
+
           pageCnt++;
+
           context.read<SearchBloc>().add(
-            GetSearchWallpapersEvent(query: query!["query"],color: query!["color"]??"",page: pageCnt),
+            GetSearchWallpapersEvent(
+              query: query!["query"],
+              color: query!["color"] ?? "",
+              page: pageCnt,
+            ),
           );
         }
       }
@@ -52,85 +89,229 @@ class _SearchWallpaperPageState extends State<SearchWallpaperPage> {
   }
 
   @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      backgroundColor: AppColors.primaryLightColor,
+      backgroundColor: bgColor,
 
-      body: BlocConsumer<SearchBloc, SearchState>(
-        listener: (_, state) {
-          if (state is SearchLoadedState) {
-            totalWallpaperCnt = state.totalResults;
-            allWallpapers.addAll(state.listPhotos);
-          }
-        },
-        builder: (_, state) {
-          if (query == null || state is SearchLoadingState && allWallpapers.isEmpty) {
-            return Center(child: CircularProgressIndicator());
-          }
+      body: SafeArea(
+        top: false,
+        child: BlocConsumer<SearchBloc, SearchState>(
 
-          if (state is SearchErrorState) {
-            return Center(child: Text(state.errMsg));
-          }
+          listener: (_, state) {
 
-          return Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16),
-            child: ListView(
-              controller: scrollController,
-              children: [
-                SizedBox(height: 7),
+            if (state is SearchLoadedState) {
 
-                Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: AppColors.primaryLightColor,
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(Icons.arrow_back_ios),
-                      ),
-                    ),
-                  ],
+              totalWallpaperCnt = state.totalResults;
+
+              allWallpapers.addAll(state.listPhotos);
+
+              isPaginationLoading = false;
+            }
+          },
+
+          builder: (_, state) {
+
+            if (query == null ||
+                state is SearchLoadingState &&
+                    allWallpapers.isEmpty) {
+
+              return Center(
+                child: CircularProgressIndicator(
+                  color: accentColor,
                 ),
+              );
+            }
 
-                Text(
-                  "${(query!["query"] as String)[0].toUpperCase()}${(query!["query"] as String).substring(1)}",
-                  style: mTextStyle34(mFontWeight: FontWeight.bold),
-                ),
+            if (state is SearchErrorState) {
+              return Center(
+                child: Text(state.errMsg),
+              );
+            }
 
-                Text(
-                  "$totalWallpaperCnt Wallpapers",
-                  style: mTextStyle16(mFontWeight: FontWeight.w500),
-                ),
+            return Padding(
+              padding:  EdgeInsets.symmetric(
+                horizontal: 16,
+              ),
 
-                SizedBox(height: 10),
+              child: ListView(
+                controller: scrollController,
 
-                MasonryGridView.count(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 11,
-                  crossAxisSpacing: 11,
-                  itemCount: allWallpapers.length,
-                  itemBuilder: (_, index) {
-                    return SizedBox(
-                      height: index % 2 == 0 ? 300 : 400,
-                      child: InkWell(
-                        onTap: (){
-                          Navigator.pushNamed(context, AppRoutes.detailWallpaperPage,arguments: allWallpapers[index]);
-                        },
-                        child: WallPaperBgWidget(
-                          imgUrl: allWallpapers[index].src!.portrait!,
+                physics:  BouncingScrollPhysics(),
+
+                children: [
+
+                   SizedBox(height: 10),
+                  Row(
+                    children: [
+
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                          BorderRadius.circular(18),
+
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.07),
+                              blurRadius: 14,
+                              offset:  Offset(0, 7),
+                            ),
+                          ],
+                        ),
+
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+
+                          icon: Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: primaryColor,
+                          ),
                         ),
                       ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          );
-        },
+                    ],
+                  ),
+
+                   SizedBox(height: 24),
+                  Text(
+                    "${(query!["query"] as String)[0].toUpperCase()}${(query!["query"] as String).substring(1)}",
+
+                    style: mTextStyle34(
+                      mFontWeight: FontWeight.bold,
+                    ).copyWith(
+                      color: primaryColor,
+                      fontSize: 34.0,
+                    ),
+                  ),
+
+                   SizedBox(height: 4),
+
+                  Text(
+                    "$totalWallpaperCnt Wallpapers",
+
+                    style: mTextStyle16(
+                      mFontWeight: FontWeight.w500,
+                    ).copyWith(
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+
+                   SizedBox(height: 24),
+                  MasonryGridView.count(
+
+                    padding: EdgeInsets.zero,
+
+                    shrinkWrap: true,
+
+                    physics:
+                     NeverScrollableScrollPhysics(),
+
+                    crossAxisCount: 2,
+
+                    mainAxisSpacing: 14,
+
+                    crossAxisSpacing: 14,
+
+                    itemCount: allWallpapers.length,
+
+                    itemBuilder: (_, index) {
+
+                      return SizedBox(
+
+                        height: index % 2 == 0
+                            ? 300
+                            : 400,
+
+                        child: InkWell(
+
+                          borderRadius:
+                          BorderRadius.circular(28),
+
+                          onTap: () {
+
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.detailWallpaperPage,
+                              arguments: allWallpapers[index],
+                            );
+                          },
+
+                          child: Container(
+
+                            decoration: BoxDecoration(
+
+                              borderRadius:
+                              BorderRadius.circular(28),
+
+                              boxShadow: [
+
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.12),
+                                  blurRadius: 20,
+                                  offset:  Offset(0, 12),
+                                ),
+
+                                BoxShadow(
+                                  color: Colors.white.withOpacity(0.6),
+                                  blurRadius: 8,
+                                  offset:  Offset(-2, -2),
+                                ),
+                              ],
+                            ),
+
+                            child: ClipRRect(
+
+                              borderRadius:
+                              BorderRadius.circular(28),
+
+                              child: Stack(
+
+                                fit: StackFit.expand,
+
+                                children: [
+
+                                  WallPaperBgWidget(
+                                    imgUrl: allWallpapers[index]
+                                        .src!
+                                        .portrait!,
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin:
+                                        Alignment.topCenter,
+                                        end:
+                                        Alignment.bottomCenter,
+                                        colors: [
+                                          Colors.transparent,
+                                          Colors.black
+                                              .withOpacity(0.45),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                   SizedBox(height: 20),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
