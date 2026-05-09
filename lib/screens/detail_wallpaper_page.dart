@@ -34,15 +34,6 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
             child: FutureBuilder<bool>(
               future: hasInternet(),
               builder: (context, snapshot) {
-
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
-                    ),
-                  );
-                }
-
                 if (snapshot.data == false) {
 
                   Future.microtask(() {
