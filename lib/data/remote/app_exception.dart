@@ -6,23 +6,28 @@ class AppException implements Exception {
 
   @override
   String toString() {
-    return '$title';
+    return "$title";
   }
 }
 
 class FetchDataException extends AppException {
   FetchDataException({required String errMsg})
-    : super(msg: errMsg, title: "No Internet Connection");
+      : super(msg: errMsg, title: "No Internet Connection");
 }
+
 class BadRequestException extends AppException {
   BadRequestException({required String errMsg})
-    : super(msg: errMsg, title: "Invalid Request");
+      : super(msg: errMsg, title: "Invalid Request");
 }
+
 class UnauthorisedException extends AppException {
   UnauthorisedException({required String errMsg})
-    : super(msg: errMsg, title: "Unauthorised");
+      : super(msg: errMsg, title: "Unauthorised");
 }
+
 class InvalidInputException extends AppException {
   InvalidInputException({required String errMsg})
-    : super(msg: errMsg, title: "Invalid Input");
+      : super(msg: errMsg, title: "Invalid Input");
 }
+
+

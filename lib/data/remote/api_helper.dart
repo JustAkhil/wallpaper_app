@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
  import 'app_exception.dart';
 
 class ApiHelper {
-  getApi({required String url}) async {
+  Future<dynamic> getApi({required String url}) async {
     try {
       http.Response response = await http.get(Uri.parse(url),headers: {
         "Authorization": "DL3XsZm6wMxPmo6e2kEZ5aUR4WOUNMYlSGOs7pe6nmCnePMl5LoHsnvc"
