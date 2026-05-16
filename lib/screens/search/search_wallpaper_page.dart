@@ -20,7 +20,7 @@ class _SearchWallpaperPageState
     extends State<SearchWallpaperPage> {
 
   Future<bool> hasInternet() async {
-    return await InternetConnectionCheckerPlus().hasConnection;
+    return await InternetConnection().hasInternetAccess;
   }
 
   Map<String, dynamic>? query;

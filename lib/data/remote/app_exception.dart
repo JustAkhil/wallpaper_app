@@ -30,4 +30,3 @@ class InvalidInputException extends AppException {
       : super(msg: errMsg, title: "Invalid Input");
 }
 
-

@@ -19,7 +19,7 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
   @override
   Widget build(BuildContext context) {
     Future<bool> hasInternet() async {
-      return await InternetConnectionCheckerPlus().hasConnection;
+      return await InternetConnection().hasInternetAccess;
     }
     final PhotoModel data =
     ModalRoute.of(context)!.settings.arguments as PhotoModel;

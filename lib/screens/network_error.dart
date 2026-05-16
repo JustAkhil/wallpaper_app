@@ -23,7 +23,7 @@ class _NetworkErrorPageState extends State<NetworkErrorPage> {
     });
 
     final bool result =
-    await InternetConnectionCheckerPlus().hasConnection;
+    await InternetConnection().hasInternetAccess;
 
     if (!mounted) return;
 

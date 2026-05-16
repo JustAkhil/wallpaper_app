@@ -38,7 +38,7 @@ class _SplashPageState extends State<SplashPage>
     await Future.delayed(const Duration(seconds: 2));
 
     final bool hasInternet =
-    await InternetConnectionCheckerPlus().hasConnection;
+    await InternetConnection().hasInternetAccess;
 
     if (!mounted) return;
 
