@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallpaper_app/constants/app_routes.dart';
+import 'package:wallpaper_app/data/repository/firebase-repository.dart';
 
 import '../network_error.dart';
 
@@ -43,9 +45,14 @@ class _SplashPageState extends State<SplashPage>
     if (!mounted) return;
 
     if (hasInternet) {
+      SharedPreferences prefs=await SharedPreferences.getInstance();
+      final user = prefs.getString(FirebaseRepository.PREFS_USER_ID_KEY);
+
       Navigator.pushReplacementNamed(
         context,
-        AppRoutes.homePage,
+        (user != null && user.isNotEmpty)
+            ? AppRoutes.homePage
+            : AppRoutes.loginPage,
       );
     } else {
       Navigator.pushReplacement(

@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallpaper_app/constants/app_routes.dart';
 import 'package:wallpaper_app/data/remote/api_helper.dart';
+import 'package:wallpaper_app/data/repository/firebase-repository.dart';
 import 'package:wallpaper_app/data/repository/wallpaper_repository.dart';
 import 'package:wallpaper_app/firebase_options.dart';
 import 'package:wallpaper_app/screens/home_page/trending_wallpaper_bloc/trending_bloc.dart';
+import 'package:wallpaper_app/screens/on_boarding/bloc/authenticate_bloc.dart';
 import 'package:wallpaper_app/screens/search/search_bloc/search_bloc.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     MultiBlocProvider(
       providers: [
@@ -23,6 +25,11 @@ void main() async{
         BlocProvider(
           create: (_) => SearchBloc(
             wallpaperRepository: WallpaperRepository(apiHelper: ApiHelper()),
+          ),
+        ),
+        BlocProvider(
+          create: (_) => AuthenticateBloc(
+            firebaseRepository: FirebaseRepository.getInstance(),
           ),
         ),
       ],

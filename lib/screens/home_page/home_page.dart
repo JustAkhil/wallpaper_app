@@ -79,21 +79,33 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
 
                   children: [
-                    Text(
-                      "WallNest",
-
-                      style: mTextStyle16(
-                        mColor: primaryColor,
-                        mFontWeight: FontWeight.bold,
-                      ).copyWith(fontSize: 34),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "WallNest",
+                              style: mTextStyle16(
+                                mColor: primaryColor,
+                                mFontWeight: FontWeight.bold,
+                              ).copyWith(fontSize: 34),
+                            ),
+                          ],
+                        ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, AppRoutes.profilePage);
+                  },
+                  child: CircleAvatar(
+                    radius: 40,
+                    backgroundImage: AssetImage(
+                      "assets/image/image_avatar.png",
                     ),
-
-                    SizedBox(height: 6),
-
-                    Text(
-                      "Curated wallpapers for your screen",
-
-                      style: mTextStyle14(mColor: softTextColor),
+                  ),
+                ),
+                      ],
                     ),
                   ],
                 ),
