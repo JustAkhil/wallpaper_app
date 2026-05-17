@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallpaper_app/constants/app_routes.dart';
 import 'package:wallpaper_app/data/repository/firebase-repository.dart';
 
 class MyProfilePage extends StatefulWidget {
@@ -55,7 +56,6 @@ class _MyProfilePageState extends State<MyProfilePage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // drag handle
               Container(
                 width: 45,
                 height: 5,
@@ -102,18 +102,6 @@ class _MyProfilePageState extends State<MyProfilePage> {
       },
     );
   }
-
-  Future<void> logout() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(FirebaseRepository.PREFS_USER_ID_KEY,"");
-
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      "/login",
-          (route) => false,
-    );
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +157,9 @@ class _MyProfilePageState extends State<MyProfilePage> {
                         child: IconButton(
 
                           onPressed: () {
-                            Navigator.pop(context);
+                            Future.delayed(Duration(milliseconds: 300),(){
+                              Navigator.pop(context);
+                            });
                           },
 
                           icon: Icon(
@@ -280,7 +270,12 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                 borderRadius: BorderRadius.circular(16),
                               ),
                             ),
-                            onPressed: logout,
+                            onPressed: ()async{
+                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                              prefs.setString(FirebaseRepository.PREFS_USER_ID_KEY, "");
+                              Navigator.pushReplacementNamed(context, AppRoutes.loginPage);
+
+                            },
                             child:  Text(
                               "Logout",
                               style: TextStyle(

@@ -240,7 +240,9 @@ class _SearchWallpaperPageState
                         child: IconButton(
 
                           onPressed: () {
-                            Navigator.pop(context);
+                            Future.delayed(Duration(milliseconds: 300),(){
+                              Navigator.pop(context);
+                            });
                           },
 
                           icon: Icon(
@@ -312,12 +314,14 @@ class _SearchWallpaperPageState
 
                           onTap: () {
 
-                            Navigator.pushNamed(
-                              context,
-                              AppRoutes.detailWallpaperPage,
-                              arguments:
-                              allWallpapers[index],
-                            );
+                            Future.delayed(Duration(milliseconds: 300),(){
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.detailWallpaperPage,
+                                arguments:
+                                allWallpapers[index],
+                              );
+                            });
                           },
 
                           child: Container(

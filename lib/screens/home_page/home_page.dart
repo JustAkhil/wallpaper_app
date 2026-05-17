@@ -96,7 +96,9 @@ class _HomePageState extends State<HomePage> {
                         ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, AppRoutes.profilePage);
+                    Future.delayed(Duration(milliseconds: 300),(){
+                      Navigator.pushNamed(context, AppRoutes.profilePage);
+                    });
                   },
                   child: CircleAvatar(
                     radius: 40,
@@ -277,13 +279,15 @@ class _HomePageState extends State<HomePage> {
                           borderRadius: BorderRadius.circular(24),
 
                           onTap: () {
-                            Navigator.pushNamed(
-                              context,
+                            Future.delayed(Duration(milliseconds: 300),(){
+                              Navigator.pushNamed(
+                                context,
 
-                              AppRoutes.detailWallpaperPage,
+                                AppRoutes.detailWallpaperPage,
 
-                              arguments: photo,
-                            );
+                                arguments: photo,
+                              );
+                            });
                           },
 
                           child: Container(

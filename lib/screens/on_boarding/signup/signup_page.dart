@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallpaper_app/constants/app_routes.dart';
@@ -29,6 +26,15 @@ class _SignupPageState extends State<SignupPage> {
   bool isConfirmPasswordHidden = true;
   GlobalKey<FormState> key = GlobalKey();
   bool isLoading = false;
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    phoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -222,14 +228,15 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                           SizedBox(height: 20),
                           TextFormField(
-                            validator: ((value) {
-                              if (value != passwordController.text) {
-                                return "Password not match";
-                              }if (value!.isEmpty) {
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
                                 return "Enter Password";
                               }
+                              if (value != passwordController.text) {
+                                return "Password not match";
+                              }
                               return null;
-                            }),
+                            },
                             controller: confirmPasswordController,
                             obscureText: isConfirmPasswordHidden,
                             decoration: InputDecoration(
@@ -370,7 +377,7 @@ class _SignupPageState extends State<SignupPage> {
                       Text("Already have account? "),
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, AppRoutes.loginPage);
+                          Navigator.pushReplacementNamed(context, AppRoutes.loginPage);
                         },
                         child: Text(
                           "Login",

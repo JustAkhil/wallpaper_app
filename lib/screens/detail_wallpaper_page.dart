@@ -36,14 +36,14 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
               builder: (context, snapshot) {
                 if (snapshot.data == false) {
 
-                  Future.microtask(() {
+                  Future.delayed((Duration(milliseconds: 300)), () {
                     Navigator.pushReplacementNamed(
                       context,
                       AppRoutes.networkErrorPage,
                     );
                   });
 
-                  return const SizedBox();
+                  return SizedBox();
                 }
 
                 return Image.network(
@@ -76,7 +76,9 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
 
             child: InkWell(
               onTap: () {
-                Navigator.pop(context);
+                Future.delayed(Duration(milliseconds: 300),(){
+                  Navigator.pop(context);
+                });
               },
 
               borderRadius: BorderRadius.circular(24),
@@ -352,7 +354,9 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
                       icon: Icons.home_rounded,
                       title: "Home",
                       onTap: () {
-                        Navigator.pop(context);
+                        Future.delayed(Duration(milliseconds: 300),(){
+                          Navigator.pop(context);
+                        });
                         applyWallpaper(
                           context,
                           url: url,
@@ -369,7 +373,9 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
                       icon: Icons.lock_rounded,
                       title: "Lock",
                       onTap: () {
-                        Navigator.pop(context);
+                        Future.delayed(Duration(milliseconds: 300),(){
+                          Navigator.pop(context);
+                        });
                         applyWallpaper(
                           context,
                           url: url,
@@ -386,7 +392,9 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
                       icon: Icons.phone_android_rounded,
                       title: "Both",
                       onTap: () {
-                        Navigator.pop(context);
+                        Future.delayed(Duration(milliseconds: 300),(){
+                          Navigator.pop(context);
+                        });
                         applyWallpaper(
                           context,
                           url: url,
