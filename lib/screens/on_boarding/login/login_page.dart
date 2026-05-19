@@ -113,9 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               errorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(18),
-                                borderSide: BorderSide(
-                                    color: Colors.red
-                                ),
+                                borderSide: BorderSide(color: Colors.red),
                               ),
                             ),
                           ),
@@ -141,9 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               errorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(18),
-                                borderSide: BorderSide(
-                                  color: Colors.red
-                                ),
+                                borderSide: BorderSide(color: Colors.red),
                               ),
                               suffixIcon: IconButton(
                                 icon: Icon(
@@ -192,7 +188,10 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(18),
                             ),
                             child:
-                                BlocConsumer<AuthenticateBloc, AuthenticateState>(
+                                BlocConsumer<
+                                  AuthenticateBloc,
+                                  AuthenticateState
+                                >(
                                   builder: (_, state) {
                                     return ElevatedButton(
                                       style: ElevatedButton.styleFrom(
@@ -212,11 +211,10 @@ class _LoginPageState extends State<LoginPage> {
                                       },
                                       child: isLoading
                                           ? CircularProgressIndicator(
-                                        color: Colors.white,
-                                        trackGap: 3,
-                                        strokeWidth: 3,
-
-                                      )
+                                              color: Colors.white,
+                                              trackGap: 3,
+                                              strokeWidth: 3,
+                                            )
                                           : Text(
                                               "Login",
                                               style: TextStyle(fontSize: 16),
@@ -234,7 +232,9 @@ class _LoginPageState extends State<LoginPage> {
                                         context,
                                       ).hideCurrentSnackBar();
 
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
                                         _customSnackBar(
                                           message: state.errMsg,
                                           icon: Icons.error_rounded,
@@ -252,11 +252,13 @@ class _LoginPageState extends State<LoginPage> {
                                       ScaffoldMessenger.of(
                                         context,
                                       ).hideCurrentSnackBar();
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
                                         _customSnackBar(
                                           message: "Login Successfully!!",
                                           icon: Icons.check_circle_rounded,
-                                          colors: const [
+                                          colors: [
                                             Color(0xff667EEA),
                                             Color(0xff764BA2),
                                           ],
@@ -314,9 +316,9 @@ class _LoginPageState extends State<LoginPage> {
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
       elevation: 0,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       content: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18),
           gradient: LinearGradient(colors: colors),
@@ -325,14 +327,14 @@ class _LoginPageState extends State<LoginPage> {
               color: colors.first.withOpacity(0.28),
               blurRadius: 16,
               spreadRadius: 1,
-              offset: const Offset(0, 6),
+              offset: Offset(0, 6),
             ),
           ],
         ),
         child: Row(
           children: [
             Icon(icon, color: textColor),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Expanded(
               child: Text(
                 message,

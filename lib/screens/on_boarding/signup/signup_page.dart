@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wallpaper_app/constants/app_routes.dart';
 import 'package:wallpaper_app/data/models/user_model.dart';
 import 'package:wallpaper_app/screens/on_boarding/bloc/authenticate_bloc.dart';
 import 'package:wallpaper_app/screens/on_boarding/bloc/authenticate_event.dart';
 import 'package:wallpaper_app/screens/on_boarding/bloc/authenticate_state.dart';
+
+import '../../../constants/app_routes.dart';
 
 class SignupPage extends StatefulWidget {
   @override
@@ -350,7 +351,7 @@ class _SignupPageState extends State<SignupPage> {
                                         _customSnackBar(
                                           message: "Account Created Successfully!!",
                                           icon: Icons.check_circle_rounded,
-                                          colors: const [
+                                          colors:  [
                                             Color(0xff667EEA),
                                             Color(0xff764BA2),
                                           ],
@@ -407,9 +408,9 @@ class _SignupPageState extends State<SignupPage> {
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
       elevation: 0,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      margin:  EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       content: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        padding:  EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18),
           gradient: LinearGradient(colors: colors),
@@ -418,14 +419,14 @@ class _SignupPageState extends State<SignupPage> {
               color: colors.first.withOpacity(0.28),
               blurRadius: 16,
               spreadRadius: 1,
-              offset: const Offset(0, 6),
+              offset:  Offset(0, 6),
             ),
           ],
         ),
         child: Row(
           children: [
             Icon(icon, color: textColor),
-            const SizedBox(width: 10),
+             SizedBox(width: 10),
             Expanded(
               child: Text(
                 message,

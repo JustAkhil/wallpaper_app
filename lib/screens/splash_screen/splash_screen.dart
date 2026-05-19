@@ -3,13 +3,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wallpaper_app/constants/app_routes.dart';
 import 'package:wallpaper_app/data/repository/firebase-repository.dart';
 
-import '../network_error.dart';
+import '../../constants/app_routes.dart';
 
 class SplashPage extends StatefulWidget {
-  const SplashPage({super.key});
+   SplashPage({super.key});
 
   @override
   State<SplashPage> createState() => _SplashPageState();
@@ -19,10 +18,10 @@ class _SplashPageState extends State<SplashPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _loaderController;
 
-  Color get primaryColor => const Color(0xff08122E);
-  Color get accentColor => const Color(0xff5B4DFF);
-  Color get softTextColor => const Color(0xff6B7280);
-  Color get bgColor => const Color(0xffF5F7FF);
+  Color get primaryColor =>  Color(0xff08122E);
+  Color get accentColor =>  Color(0xff5B4DFF);
+  Color get softTextColor =>  Color(0xff6B7280);
+  Color get bgColor =>  Color(0xffF5F7FF);
 
   @override
   void initState() {
@@ -30,14 +29,14 @@ class _SplashPageState extends State<SplashPage>
 
     _loaderController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1200),
+      duration:  Duration(milliseconds: 1200),
     )..repeat();
 
     checkInternetAndNavigate();
   }
 
   Future<void> checkInternetAndNavigate() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed( Duration(seconds: 2));
 
     final bool hasInternet =
     await InternetConnection().hasInternetAccess;
@@ -92,10 +91,10 @@ class _SplashPageState extends State<SplashPage>
           SafeArea(
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 22),
+                padding:  EdgeInsets.symmetric(horizontal: 22),
                 child: Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
+                  padding:  EdgeInsets.symmetric(
                     horizontal: 26,
                     vertical: 38,
                   ),
@@ -106,7 +105,7 @@ class _SplashPageState extends State<SplashPage>
                       BoxShadow(
                         color: Colors.black.withOpacity(0.06),
                         blurRadius: 28,
-                        offset: const Offset(0, 14),
+                        offset:  Offset(0, 14),
                       ),
                     ],
                   ),
@@ -123,7 +122,7 @@ class _SplashPageState extends State<SplashPage>
                             BoxShadow(
                               color: accentColor.withOpacity(0.22),
                               blurRadius: 28,
-                              offset: const Offset(0, 14),
+                              offset:  Offset(0, 14),
                             ),
                           ],
                         ),
@@ -136,7 +135,7 @@ class _SplashPageState extends State<SplashPage>
                         ),
                       ),
 
-                      const SizedBox(height: 30),
+                       SizedBox(height: 30),
 
                       Text(
                         "WallNest",
@@ -148,7 +147,7 @@ class _SplashPageState extends State<SplashPage>
                         ),
                       ),
 
-                      const SizedBox(height: 8),
+                       SizedBox(height: 8),
 
                       Text(
                         "Curated wallpapers for your screen",
@@ -160,7 +159,7 @@ class _SplashPageState extends State<SplashPage>
                         ),
                       ),
 
-                      const SizedBox(height: 38),
+                       SizedBox(height: 38),
 
                       AnimatedBuilder(
                         animation: _loaderController,
@@ -168,7 +167,7 @@ class _SplashPageState extends State<SplashPage>
                           return Transform.rotate(
                             angle: _loaderController.value * 2 * pi,
                             child: CustomPaint(
-                              size: const Size(60, 60),
+                              size:  Size(60, 60),
                               painter: PremiumCircleLoaderPainter(
                                 accentColor: accentColor,
                               ),
@@ -177,7 +176,7 @@ class _SplashPageState extends State<SplashPage>
                         },
                       ),
 
-                      const SizedBox(height: 18),
+                       SizedBox(height: 18),
 
                       Text(
                         "Loading...",
@@ -223,7 +222,7 @@ class PremiumCircleLoaderPainter extends CustomPainter {
     final radius = size.width / 2;
 
     final bgPaint = Paint()
-      ..color = const Color(0xffEEF0F6)
+      ..color =  Color(0xffEEF0F6)
       ..strokeWidth = 6
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
@@ -234,7 +233,7 @@ class PremiumCircleLoaderPainter extends CustomPainter {
           accentColor.withOpacity(0.05),
           accentColor.withOpacity(0.35),
           accentColor,
-          const Color(0xff7C74FF),
+           Color(0xff7C74FF),
         ],
       ).createShader(
         Rect.fromCircle(

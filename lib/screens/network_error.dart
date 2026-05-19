@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-import 'package:wallpaper_app/constants/app_routes.dart';
+import '../constants/app_routes.dart';
 
 class NetworkErrorPage extends StatefulWidget {
-  const NetworkErrorPage({super.key});
+   NetworkErrorPage({super.key});
 
   @override
   State<NetworkErrorPage> createState() => _NetworkErrorPageState();
@@ -12,10 +12,10 @@ class NetworkErrorPage extends StatefulWidget {
 class _NetworkErrorPageState extends State<NetworkErrorPage> {
   bool isChecking = false;
 
-  Color get primaryColor => const Color(0xff08122E);
-  Color get accentColor => const Color(0xff5B4DFF);
-  Color get softTextColor => const Color(0xff6B7280);
-  Color get bgColor => const Color(0xffF5F7FF);
+  Color get primaryColor =>  Color(0xff08122E);
+  Color get accentColor =>  Color(0xff5B4DFF);
+  Color get softTextColor =>  Color(0xff6B7280);
+  Color get bgColor =>  Color(0xffF5F7FF);
 
   Future<void> checkInternet() async {
     setState(() {
@@ -45,7 +45,7 @@ class _NetworkErrorPageState extends State<NetworkErrorPage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18),
           ),
-          content: const Text(
+          content:  Text(
             "Please check your internet connection and try again.",
             style: TextStyle(
               color: Colors.white,
@@ -84,10 +84,10 @@ class _NetworkErrorPageState extends State<NetworkErrorPage> {
           SafeArea(
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.all(24),
+                padding:  EdgeInsets.all(24),
                 child: Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(28),
+                  padding:  EdgeInsets.all(28),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(34),
@@ -95,7 +95,7 @@ class _NetworkErrorPageState extends State<NetworkErrorPage> {
                       BoxShadow(
                         color: Colors.black.withOpacity(0.06),
                         blurRadius: 28,
-                        offset: const Offset(0, 14),
+                        offset:  Offset(0, 14),
                       ),
                     ],
                   ),
@@ -112,7 +112,7 @@ class _NetworkErrorPageState extends State<NetworkErrorPage> {
                             BoxShadow(
                               color: accentColor.withOpacity(0.18),
                               blurRadius: 28,
-                              offset: const Offset(0, 14),
+                              offset:  Offset(0, 14),
                             ),
                           ],
                         ),
@@ -123,7 +123,7 @@ class _NetworkErrorPageState extends State<NetworkErrorPage> {
                         ),
                       ),
 
-                      const SizedBox(height: 28),
+                       SizedBox(height: 28),
 
                       Text(
                         "No Internet Connection",
@@ -135,7 +135,7 @@ class _NetworkErrorPageState extends State<NetworkErrorPage> {
                         ),
                       ),
 
-                      const SizedBox(height: 12),
+                       SizedBox(height: 12),
 
                       Text(
                         "Please connect internet and press refresh",
@@ -148,7 +148,7 @@ class _NetworkErrorPageState extends State<NetworkErrorPage> {
                         ),
                       ),
 
-                      const SizedBox(height: 34),
+                       SizedBox(height: 34),
 
                       SizedBox(
                         width: double.infinity,
@@ -165,7 +165,7 @@ class _NetworkErrorPageState extends State<NetworkErrorPage> {
                             ),
                           ),
                           child: isChecking
-                              ? const SizedBox(
+                              ?  SizedBox(
                             width: 26,
                             height: 26,
                             child: CircularProgressIndicator(
@@ -173,7 +173,7 @@ class _NetworkErrorPageState extends State<NetworkErrorPage> {
                               strokeWidth: 2.6,
                             ),
                           )
-                              : const Row(
+                              :  Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(

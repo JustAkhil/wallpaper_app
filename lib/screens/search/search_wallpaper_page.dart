@@ -37,13 +37,13 @@ class _SearchWallpaperPageState
 
   bool isPaginationLoading = false;
 
-  Color get bgColor => const Color(0xffF5F7FF);
+  Color get bgColor =>  Color(0xffF5F7FF);
 
-  Color get primaryColor => const Color(0xff08122E);
+  Color get primaryColor =>  Color(0xff08122E);
 
-  Color get accentColor => const Color(0xff5B4DFF);
+  Color get accentColor => Color(0xff5B4DFF);
 
-  Color get softTextColor => const Color(0xff6B7280);
+  Color get softTextColor => Color(0xff6B7280);
 
   @override
   void initState() {
@@ -203,12 +203,12 @@ class _SearchWallpaperPageState
                 );
               });
 
-              return const SizedBox();
+              return SizedBox();
             }
 
             return Padding(
               padding:
-              const EdgeInsets.symmetric(
+              EdgeInsets.symmetric(
                 horizontal: 16,
               ),
 
@@ -216,11 +216,11 @@ class _SearchWallpaperPageState
                 controller: scrollController,
 
                 physics:
-                const BouncingScrollPhysics(),
+                BouncingScrollPhysics(),
 
                 children: [
 
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
 
                   Row(
                     children: [
@@ -241,7 +241,7 @@ class _SearchWallpaperPageState
                               blurRadius: 14,
 
                               offset:
-                              const Offset(0, 7),
+                              Offset(0, 7),
                             ),
                           ],
                         ),
@@ -263,7 +263,7 @@ class _SearchWallpaperPageState
                     ],
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   Text(
                     "${(query!["query"] as String)[0].toUpperCase()}${(query!["query"] as String).substring(1)}",
@@ -277,7 +277,7 @@ class _SearchWallpaperPageState
                     ),
                   ),
 
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
 
                   Text(
                     "$totalWallpaperCnt Wallpapers",
@@ -290,7 +290,7 @@ class _SearchWallpaperPageState
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   MasonryGridView.count(
                     padding: EdgeInsets.zero,
@@ -298,7 +298,7 @@ class _SearchWallpaperPageState
                     shrinkWrap: true,
 
                     physics:
-                    const NeverScrollableScrollPhysics(),
+                    NeverScrollableScrollPhysics(),
 
                     crossAxisCount: 2,
 
@@ -349,7 +349,7 @@ class _SearchWallpaperPageState
                                   blurRadius: 20,
 
                                   offset:
-                                  const Offset(0, 12),
+                                  Offset(0, 12),
                                 ),
 
                                 BoxShadow(
@@ -359,7 +359,7 @@ class _SearchWallpaperPageState
                                   blurRadius: 8,
 
                                   offset:
-                                  const Offset(-2, -2),
+                                  Offset(-2, -2),
                                 ),
                               ],
                             ),
@@ -408,17 +408,17 @@ class _SearchWallpaperPageState
                     },
                   ),
 
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   if (isPaginationLoading)
                     Padding(
-                      padding: const EdgeInsets.only(
+                      padding: EdgeInsets.only(
                         bottom: 20,
                       ),
 
                       child: Center(
                         child: Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
+                          padding: EdgeInsets.only(bottom: 20),
                           child: Center(
                             child: SizedBox(
                               height: 32,
@@ -426,7 +426,7 @@ class _SearchWallpaperPageState
                               child: CircularProgressIndicator(
                                 strokeWidth: 2.8,
                                 valueColor: AlwaysStoppedAnimation<Color>(accentColor),
-                                backgroundColor: const Color(0xffEEF0F6),
+                                backgroundColor: Color(0xffEEF0F6),
                               ),
                             ),
                           ),

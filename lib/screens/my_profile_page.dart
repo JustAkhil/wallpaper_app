@@ -7,7 +7,6 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallpaper_app/data/models/user_model.dart';
 import 'package:wallpaper_app/data/repository/firebase-repository.dart';
-
 import '../constants/app_routes.dart';
 
 class MyProfilePage extends StatefulWidget {
@@ -543,7 +542,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
           _customSnackBar(
             message: e.toString(),
             icon: Icons.error_rounded,
-            colors: const [
+            colors:  [
               Color(0xffFF6B6B),
               Color(0xffFF8E53),
             ],
@@ -564,9 +563,9 @@ class _MyProfilePageState extends State<MyProfilePage> {
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
       elevation: 0,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      margin:  EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       content: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        padding:  EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18),
           gradient: LinearGradient(colors: colors),
@@ -575,14 +574,14 @@ class _MyProfilePageState extends State<MyProfilePage> {
               color: colors.first.withOpacity(0.28),
               blurRadius: 16,
               spreadRadius: 1,
-              offset: const Offset(0, 6),
+              offset:  Offset(0, 6),
             ),
           ],
         ),
         child: Row(
           children: [
             Icon(icon, color: textColor),
-            const SizedBox(width: 10),
+             SizedBox(width: 10),
             Expanded(
               child: Text(
                 message,
