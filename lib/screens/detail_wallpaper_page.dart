@@ -17,12 +17,26 @@ class DetailWallpaperPage extends StatefulWidget {
 
 class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
   @override
-  Widget build(BuildContext context) {
-    Future<bool> hasInternet() async {
-      return await InternetConnection().hasInternetAccess;
+  void initState() {
+    super.initState();
+    checkInternet();
+  }
+
+  Future<void> checkInternet() async {
+    final result = await InternetConnection().hasInternetAccess;
+    if (!result) {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoutes.networkErrorPage,
+        (route) => false,
+      );
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final PhotoModel data =
-    ModalRoute.of(context)!.settings.arguments as PhotoModel;
+        ModalRoute.of(context)!.settings.arguments as PhotoModel;
 
     final String imageUrl = data.src!.portrait!;
 
@@ -30,29 +44,7 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          SizedBox.expand(
-            child: FutureBuilder<bool>(
-              future: hasInternet(),
-              builder: (context, snapshot) {
-                if (snapshot.data == false) {
-
-                  Future.delayed((Duration(milliseconds: 300)), () {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      AppRoutes.networkErrorPage,
-                    );
-                  });
-
-                  return SizedBox();
-                }
-
-                return Image.network(
-                  imageUrl,
-                  fit: BoxFit.cover,
-                );
-              },
-            ),
-          ),
+          SizedBox.expand(child: Image.network(imageUrl, fit: BoxFit.cover)),
 
           Positioned.fill(
             child: Container(
@@ -76,7 +68,7 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
 
             child: InkWell(
               onTap: () {
-                Future.delayed(Duration(milliseconds: 300),(){
+                Future.delayed(Duration(milliseconds: 300), () {
                   Navigator.pop(context);
                 });
               },
@@ -88,7 +80,6 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
                 height: 58,
 
                 decoration: BoxDecoration(
-
                   color: Colors.black.withOpacity(0.28),
 
                   borderRadius: BorderRadius.circular(24),
@@ -99,7 +90,6 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
                   ),
 
                   boxShadow: [
-
                     BoxShadow(
                       color: Colors.black.withOpacity(0.35),
                       blurRadius: 20,
@@ -128,16 +118,11 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
             left: 18,
             right: 18,
             child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 18,
-                vertical: 18,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 18, vertical: 18),
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.35),
                 borderRadius: BorderRadius.circular(30),
-                border: Border.all(
-                  color: Colors.white.withOpacity(0.12),
-                ),
+                border: Border.all(color: Colors.white.withOpacity(0.12)),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.35),
@@ -157,19 +142,14 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
 
                   getAction(
                     icon: Icons.download_rounded,
-                    onTap: () => saveWallpaper(
-                      context,
-                      url: imageUrl,
-                    ),
+                    onTap: () => saveWallpaper(context, url: imageUrl),
                     title: "Save",
                   ),
 
                   getAction(
                     icon: Icons.wallpaper_rounded,
-                    onTap: () => showApplyWallpaperSheet(
-                      context,
-                      url: imageUrl,
-                    ),
+                    onTap: () =>
+                        showApplyWallpaperSheet(context, url: imageUrl),
                     title: "Apply",
                     bgColor: Color(0xff5B4DFF),
                   ),
@@ -199,9 +179,7 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
             decoration: BoxDecoration(
               color: bgColor ?? Colors.white.withOpacity(0.15),
               borderRadius: BorderRadius.circular(22),
-              border: Border.all(
-                color: Colors.white.withOpacity(0.12),
-              ),
+              border: Border.all(color: Colors.white.withOpacity(0.12)),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.25),
@@ -210,11 +188,7 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
                 ),
               ],
             ),
-            child: Icon(
-              icon,
-              color: Colors.white,
-              size: 30,
-            ),
+            child: Icon(icon, color: Colors.white, size: 30),
           ),
         ),
 
@@ -232,11 +206,11 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
   }
 
   void showAppSnackBar(
-      BuildContext context,
-      String message, {
-        IconData icon = Icons.info_outline_rounded,
-        Color? color
-      }) {
+    BuildContext context,
+    String message, {
+    IconData icon = Icons.info_outline_rounded,
+    Color? color,
+  }) {
     ScaffoldMessenger.of(context).clearSnackBars();
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -244,24 +218,16 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        margin: EdgeInsets.symmetric(
-          horizontal: 18,
-          vertical: 18,
-        ),
+        margin: EdgeInsets.symmetric(horizontal: 18, vertical: 18),
         content: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 14,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           decoration: BoxDecoration(
             color: Colors.black.withOpacity(0.88),
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: Colors.white.withOpacity(0.12),
-            ),
+            border: Border.all(color: Colors.white.withOpacity(0.12)),
             boxShadow: [
               BoxShadow(
-                color: (color??Color(0xff5B4DFF)).withOpacity(0.35),
+                color: (color ?? Color(0xff5B4DFF)).withOpacity(0.35),
                 blurRadius: 20,
                 offset: Offset(0, 10),
               ),
@@ -269,11 +235,7 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
           ),
           child: Row(
             children: [
-              Icon(
-                icon,
-                color: color,
-                size: 24,
-              ),
+              Icon(icon, color: color, size: 24),
 
               SizedBox(width: 12),
 
@@ -293,10 +255,7 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
     );
   }
 
-  void showApplyWallpaperSheet(
-      BuildContext context, {
-        required String url,
-      }) {
+  void showApplyWallpaperSheet(BuildContext context, {required String url}) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -305,12 +264,8 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
           padding: EdgeInsets.fromLTRB(20, 22, 20, 30),
           decoration: BoxDecoration(
             color: Colors.black.withOpacity(0.92),
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(32),
-            ),
-            border: Border.all(
-              color: Colors.white.withOpacity(0.12),
-            ),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+            border: Border.all(color: Colors.white.withOpacity(0.12)),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -354,14 +309,10 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
                       icon: Icons.home_rounded,
                       title: "Home",
                       onTap: () {
-                        Future.delayed(Duration(milliseconds: 300),(){
+                        Future.delayed(Duration(milliseconds: 300), () {
                           Navigator.pop(context);
                         });
-                        applyWallpaper(
-                          context,
-                          url: url,
-                          type: "home",
-                        );
+                        applyWallpaper(context, url: url, type: "home");
                       },
                     ),
                   ),
@@ -373,14 +324,10 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
                       icon: Icons.lock_rounded,
                       title: "Lock",
                       onTap: () {
-                        Future.delayed(Duration(milliseconds: 300),(){
+                        Future.delayed(Duration(milliseconds: 300), () {
                           Navigator.pop(context);
                         });
-                        applyWallpaper(
-                          context,
-                          url: url,
-                          type: "lock",
-                        );
+                        applyWallpaper(context, url: url, type: "lock");
                       },
                     ),
                   ),
@@ -392,14 +339,10 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
                       icon: Icons.phone_android_rounded,
                       title: "Both",
                       onTap: () {
-                        Future.delayed(Duration(milliseconds: 300),(){
+                        Future.delayed(Duration(milliseconds: 300), () {
                           Navigator.pop(context);
                         });
-                        applyWallpaper(
-                          context,
-                          url: url,
-                          type: "both",
-                        );
+                        applyWallpaper(context, url: url, type: "both");
                       },
                     ),
                   ),
@@ -425,17 +368,11 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.12),
           borderRadius: BorderRadius.circular(22),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.12),
-          ),
+          border: Border.all(color: Colors.white.withOpacity(0.12)),
         ),
         child: Column(
           children: [
-            Icon(
-              icon,
-              color: Color(0xff5B4DFF),
-              size: 30,
-            ),
+            Icon(icon, color: Color(0xff5B4DFF), size: 30),
 
             SizedBox(height: 8),
 
@@ -453,9 +390,9 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
   }
 
   Future<void> saveWallpaper(
-      BuildContext context, {
-        required String url,
-      }) async {
+    BuildContext context, {
+    required String url,
+  }) async {
     try {
       showAppSnackBar(
         context,
@@ -505,10 +442,10 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
   }
 
   void applyWallpaper(
-      BuildContext context, {
-        required String url,
-        required String type,
-      }) {
+    BuildContext context, {
+    required String url,
+    required String type,
+  }) {
     final size = MediaQuery.sizeOf(context);
 
     showAppSnackBar(
@@ -518,7 +455,7 @@ class _DetailWallpaperPageState extends State<DetailWallpaperPage> {
     );
 
     Wallpaper.imageDownloadProgress(url).listen(
-          (progress) {
+      (progress) {
         debugPrint("Wallpaper download progress: $progress");
       },
       onDone: () async {

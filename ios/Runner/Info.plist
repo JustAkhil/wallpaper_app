@@ -47,5 +47,9 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To save user desire wallpaper</string>
+	<key>NSCameraUsageDescription</key>
+    <string>Camera section</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Microphone section</string>
 </dict>
 </plist>

@@ -55,12 +55,7 @@ class _SplashPageState extends State<SplashPage>
             : AppRoutes.loginPage,
       );
     } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => NetworkErrorPage(),
-        ),
-      );
+     Navigator.pushReplacementNamed(context,AppRoutes.networkErrorPage);
     }
   }
 

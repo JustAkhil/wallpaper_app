@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallpaper_app/app_widgets/wallpaper_bg_widget.dart';
 import 'package:wallpaper_app/constants/app_constants.dart';
+import 'package:wallpaper_app/data/models/user_model.dart';
+import 'package:wallpaper_app/data/repository/firebase-repository.dart';
 import 'package:wallpaper_app/screens/home_page/trending_wallpaper_bloc/trending_bloc.dart';
 import 'package:wallpaper_app/screens/home_page/trending_wallpaper_bloc/trending_event.dart';
 import 'package:wallpaper_app/screens/home_page/trending_wallpaper_bloc/trending_state.dart';
@@ -18,7 +22,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final searchController = TextEditingController();
-
   int selectedColorIndex = -1;
 
   Color get primaryColor => Color(0xff08122E);
@@ -28,12 +31,20 @@ class _HomePageState extends State<HomePage> {
   Color get softTextColor => Color(0xff6B7280);
 
   Color get bgColor => Color(0xffF5F7FF);
+  String? imgUrl;
+  String? userId;
 
   @override
   void initState() {
     super.initState();
-
     context.read<TrendingBloc>().add(GetTrendingWallpapersEvent());
+    userDetail();
+  }
+
+  Future<void> userDetail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userId = prefs.getString(FirebaseRepository.PREFS_USER_ID_KEY)!;
+    setState(() {});
   }
 
   @override
@@ -82,31 +93,51 @@ class _HomePageState extends State<HomePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        Text(
+                          "WallNest",
+                          style: mTextStyle16(
+                            mColor: primaryColor,
+                            mFontWeight: FontWeight.bold,
+                          ).copyWith(fontSize: 34),
+                        ),
                         Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "WallNest",
-                              style: mTextStyle16(
-                                mColor: primaryColor,
-                                mFontWeight: FontWeight.bold,
-                              ).copyWith(fontSize: 34),
+                            InkWell(
+                              onTap: () {
+                                Future.delayed(Duration(milliseconds: 300), () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    AppRoutes.profilePage,
+                                  );
+                                });
+                              },
+                              child: userId == null
+                                  ? CircleAvatar(
+                                radius: 20,
+                                backgroundImage: AssetImage("assets/image/image_avatar.png"),
+                              )
+                                  : StreamBuilder(
+                                stream: FirebaseRepository.getInstance()
+                                    .getUserDetailAsAstream(id: userId!),
+                                builder: (_, snapshot) {
+                                  if (snapshot.hasData && snapshot.data!.data() != null) {
+                                    var data = snapshot.data!.data();
+                                    UserModel userModel = UserModel.fromMap(data!);
+                                    imgUrl = userModel.imgUrl;
+                                  }
+                                  return CircleAvatar(
+                                    radius: 40,
+                                    backgroundImage: (imgUrl == null || imgUrl!.isEmpty)
+                                        ? AssetImage("assets/image/image_avatar.png") as ImageProvider
+                                        : NetworkImage(imgUrl!),
+                                  );
+                                },
+                              ),
                             ),
+                            SizedBox(height: 5,),
+                            Text("My Profile",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),)
                           ],
                         ),
-                InkWell(
-                  onTap: () {
-                    Future.delayed(Duration(milliseconds: 300),(){
-                      Navigator.pushNamed(context, AppRoutes.profilePage);
-                    });
-                  },
-                  child: CircleAvatar(
-                    radius: 40,
-                    backgroundImage: AssetImage(
-                      "assets/image/image_avatar.png",
-                    ),
-                  ),
-                ),
                       ],
                     ),
                   ],
@@ -238,29 +269,47 @@ class _HomePageState extends State<HomePage> {
                   if (state is TrendingLoadingState) {
                     return Center(
                       child: Container(
-                        width: 82,
-                        height: 82,
-                        padding: const EdgeInsets.all(18),
+                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 22),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(26),
+                          borderRadius: BorderRadius.circular(20),
                           boxShadow: [
                             BoxShadow(
-                              color: accentColor.withOpacity(0.18),
-                              blurRadius: 24,
-                              offset: const Offset(0, 12),
+                              color: Colors.black.withOpacity(0.06),
+                              blurRadius: 18,
+                              offset: Offset(0, 8),
                             ),
                           ],
                         ),
-                        child: CircularProgressIndicator(
-                          strokeWidth: 4,
-                          color: accentColor,
-                          backgroundColor: const Color(0xffEEF0F6),
-                          strokeCap: StrokeCap.round,
+
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              height: 42,
+                              width: 42,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3,
+
+                                valueColor: AlwaysStoppedAnimation<Color>(accentColor),
+                              ),
+                            ),
+
+                            SizedBox(height: 14),
+
+                            Text(
+                              "Loading Wallpapers...",
+                              style: TextStyle(
+                                color: Colors.black.withOpacity(0.7),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     );
-                  }else if (state is TrendingErrorState) {
+                  } else if (state is TrendingErrorState) {
                     return Center(child: Text(state.errMsg));
                   } else if (state is TrendingLoadedState) {
                     return ListView.builder(
@@ -279,7 +328,7 @@ class _HomePageState extends State<HomePage> {
                           borderRadius: BorderRadius.circular(24),
 
                           onTap: () {
-                            Future.delayed(Duration(milliseconds: 300),(){
+                            Future.delayed(Duration(milliseconds: 300), () {
                               Navigator.pushNamed(
                                 context,
 

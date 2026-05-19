@@ -151,34 +151,43 @@ class _SearchWallpaperPageState
 
               return Center(
                 child: Container(
-                  width: 82,
-                  height: 82,
-                  padding: const EdgeInsets.all(18),
-
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 22),
                   decoration: BoxDecoration(
                     color: Colors.white,
-
-                    borderRadius:
-                    BorderRadius.circular(26),
-
+                    borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color:
-                        accentColor.withOpacity(0.18),
-
-                        blurRadius: 24,
-
-                        offset: const Offset(0, 12),
+                        color: Colors.black.withOpacity(0.06),
+                        blurRadius: 18,
+                        offset: Offset(0, 8),
                       ),
                     ],
                   ),
 
-                  child: CircularProgressIndicator(
-                    strokeWidth: 4,
-                    color: accentColor,
-                    backgroundColor:
-                    const Color(0xffEEF0F6),
-                    strokeCap: StrokeCap.round,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        height: 42,
+                        width: 42,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3,
+
+                          valueColor: AlwaysStoppedAnimation<Color>(accentColor),
+                        ),
+                      ),
+
+                      SizedBox(height: 14),
+
+                      Text(
+                        "Loading Wallpapers...",
+                        style: TextStyle(
+                          color: Colors.black.withOpacity(0.7),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               );
@@ -408,9 +417,20 @@ class _SearchWallpaperPageState
                       ),
 
                       child: Center(
-                        child: CircularProgressIndicator(
-                          color: accentColor,
-                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Center(
+                            child: SizedBox(
+                              height: 32,
+                              width: 32,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.8,
+                                valueColor: AlwaysStoppedAnimation<Color>(accentColor),
+                                backgroundColor: const Color(0xffEEF0F6),
+                              ),
+                            ),
+                          ),
+                        )
                       ),
                     ),
                 ],

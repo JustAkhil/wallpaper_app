@@ -4,6 +4,7 @@ import 'package:wallpaper_app/screens/my_profile_page.dart';
 import 'package:wallpaper_app/screens/splash_screen/splash_screen.dart';
 
 import '../screens/network_error.dart';
+import '../screens/on_boarding/forget_pass_page.dart';
 import '../screens/on_boarding/login/login_page.dart';
 import '../screens/on_boarding/signup/signup_page.dart';
 import '../screens/search/search_wallpaper_page.dart';
@@ -18,7 +19,7 @@ class AppRoutes{
   static final loginPage="/login_page";
   static final signupPage="/signup_page";
   static final profilePage="/profile_page";
-
+  static final forgotPasswordPage="/forgot_password_page";
   static Map<String,WidgetBuilder>getRoutes()=>{
     splash:(_)=>SplashPage(),
     homePage:(_)=>HomePage(),
@@ -28,5 +29,6 @@ class AppRoutes{
     loginPage:(_)=>LoginPage(),
     signupPage:(_)=>SignupPage(),
     profilePage:(_)=>MyProfilePage(),
+    forgotPasswordPage:(_)=>ForgotPasswordPage(),
   };
 }
